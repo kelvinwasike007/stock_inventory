@@ -26,7 +26,6 @@ $client = new Clients($db);
 $post_data = json_decode(file_get_contents("php://input"));
 
 $client->organization = $post_data->organization;
-$client->organization_id = md5($post_data->organization);
 $client->email = $post_data->email;
 $client->contact = $post_data->contact;
 

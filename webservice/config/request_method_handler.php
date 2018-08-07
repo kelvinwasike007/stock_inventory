@@ -49,4 +49,18 @@ function delete_method()
      exit();
    }
  }
+
+//Verify Token function
+
+function verifyToken($postToken)
+{
+  $token = JWT::decode($postToken);
+  if ($token['user'] == "") {
+    return 'Invalid';
+  } else {
+    return "Valid";
+  }
+}
+ //App secret
+ $app_key = "WesEmpire"
  ?>
