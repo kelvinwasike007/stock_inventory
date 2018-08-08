@@ -17,7 +17,7 @@ class Users
   public $organization_id;
   public $user_id;
   public $profile_pic;
-
+  public $password_update;
   function __construct($db)
   {
     $this->dbconnection = $db;
@@ -50,6 +50,56 @@ class Users
     } else {
       return "False";
     }
+  }
+
+  //update password
+  public function updateClientPassword()
+  {
+    //Check if  infomation is valid
+    //enc password
+    $current_password = $this->password;
+    $new_password = md5($this->password_update);
+    //get the corresponding password from $username
+    $query = "SELECT * FROM `".$this->users_client_table."` WHERE username = '$this->username' AND organization_id = '$this->organization_id'";
+    $stmt = $this->dbconnection->prepare($query);
+    $stmt->execute();
+
+    //Just Incase the user doesnt  exist
+    if ($stmt->rowCount() < 0) {
+      return "False";
+    }
+    //get data
+    while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $db_password = $data['password'];
+    }
+
+    //Confirm old password
+    if ($db_password == $current_password) {
+      //perform the password change
+      $query = "UPDATE `app_clients_users` SET `password` = '$new_password' WHERE username = '$this->username' AND organization_id = '$this->organization_id'";
+      $stmt = $this->dbconnection->prepare($query);
+      //make sure its changed
+      if ($stmt->execute()) {
+        return "True";
+      } else {
+        return "False";
+      }
+    } else {
+      //if  it aint the same
+      return "False";
+    }
+  }
+
+  //Get User Id Of A User
+  public function getUserId()
+  {
+    $query = "SELECT * FROM `app_clients_users` WHERE username='$this->username'";
+    $stmt = $this->dbconnection->prepare($query);
+    $stmt->execute();
+    while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $user_id_val = $data["user_id"];
+    }
+    return $user_id_val;
   }
 }
 

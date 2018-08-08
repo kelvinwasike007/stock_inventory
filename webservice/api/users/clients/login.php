@@ -8,7 +8,7 @@ header("Access-Control-Allow-Methods: POST");
 include '../../../config/Database.php';
 include '../../../models/Users.php';
 include '../../../config/request_method_handler.php';
-include '../../../config/Jwt.php';
+
 
 //method handler
 post_method();
@@ -34,15 +34,16 @@ $users->organization_id = $post_data->organization_id;
 //try login
 
 if ($users->client_login() == "True") {
-  //generate  token
-  $enc_data = array();
-  $enc_data['user'] = "sdfsdsss";
-  $token = JWT::encode($token, $app_key);
-  //send token and login success
+  //get  User Id
+  $user_id_data = $users->getUserId();
+    //generate  token
+  $token = generateToken($post_data->username, $db, $user_id_data);
+    //send token and login success
   echo json_encode(
     array(
       "msg" => "Authenticated",
-      "Token" => $token
+      "Token" => $token,
+      "user_id" => $user_id_data
     )
   );
 } else {

@@ -49,16 +49,60 @@ function delete_method()
      exit();
    }
  }
+//Generate and save Token
 
+function generateToken($username, $db, $user_id)
+{
+  //generate Token
+  $date = date_create();
+
+  $new_token = md5($username.date_timestamp_get($date));
+  //check if token exist
+  $query = "SELECT * FROM `app_token-store` WHERE user_id = '$user_id'";
+  $stmt = $db->prepare($query);
+  $stmt->execute();
+  if ($stmt->rowCount() > 0) {
+    //Delete  token
+    $query = "DELETE FROM `app_token-store` WHERE user_id = '$user_id'";
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    //save new token
+    $query = "INSERT INTO `app_token-store`(`user_id`, `token`) VALUES ('$user_id', '$new_token')";
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    //return the  new  token
+    return $new_token;
+  } else {
+    //if no token in store
+    //save Token
+    $query = "INSERT INTO `app_token-store`(`user_id`, `token`) VALUES ('$user_id', '$new_token')";
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    //return the  new  token
+    return $new_token;
+  }
+
+}
 //Verify Token function
 
-function verifyToken($postToken)
+function verifyToken($user_id, $db, $token)
 {
-  $token = JWT::decode($postToken);
-  if ($token['user'] == "") {
-    return 'Invalid';
+  //get Token
+  $query = "SELECT * FROM `app_token-store` WHERE user_id='$user_id'";
+  $stmt = $db->prepare($query);
+  $stmt->execute();
+  //if no results
+  if ($stmt->rowCount() < 1) {
+    return "Invalid";
   } else {
-    return "Valid";
+    while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $db_token = $data["token"];
+    }
+    if ($db_token == $token) {
+      return "Valid";
+    } else {
+      return "Invalid";
+    }
   }
 }
  //App secret
