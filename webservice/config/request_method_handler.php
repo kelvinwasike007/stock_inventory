@@ -105,6 +105,21 @@ function verifyToken($user_id, $db, $token)
     }
   }
 }
+
+//Unauthorized Message
+function unAuthMsg()
+{
+  echo json_encode(
+    array(
+      "msg" => "Error 401 | Unauthorized Access"
+    )
+  );
+
+  //status code
+  http_response_code(401);
+}
+
+$date = date_create();
  //App secret
  $app_key = "WesEmpire"
  ?>
