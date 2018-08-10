@@ -18,6 +18,7 @@ class Users
   public $user_id;
   public $profile_pic;
   public $password_update;
+  public $ac_type;
   function __construct($db)
   {
     $this->dbconnection = $db;
@@ -53,14 +54,14 @@ class Users
   }
 
   //update password
-  public function updateClientPassword()
+  public function updateClientAccount()
   {
     //Check if  infomation is valid
     //enc password
     $current_password = $this->password;
     $new_password = md5($this->password_update);
     //get the corresponding password from $username
-    $query = "SELECT * FROM `".$this->users_client_table."` WHERE username = '$this->username' AND organization_id = '$this->organization_id'";
+    $query = "SELECT * FROM `".$this->users_client_table."` WHERE user_id = '$this->user_id' AND organization_id = '$this->organization_id'";
     $stmt = $this->dbconnection->prepare($query);
     $stmt->execute();
 
@@ -76,7 +77,7 @@ class Users
     //Confirm old password
     if ($db_password == $current_password) {
       //perform the password change
-      $query = "UPDATE `app_clients_users` SET `password` = '$new_password' WHERE username = '$this->username' AND organization_id = '$this->organization_id'";
+      $query = "UPDATE `app_clients_users` SET `password` = '$new_password', username = '$this->username' WHERE user_id = '$this->user_id' AND organization_id = '$this->organization_id'";
       $stmt = $this->dbconnection->prepare($query);
       //make sure its changed
       if ($stmt->execute()) {
@@ -100,6 +101,33 @@ class Users
       $user_id_val = $data["user_id"];
     }
     return $user_id_val;
+  }
+
+  //add clients account
+
+  public function addClientAccount()
+  {
+    $query =  "INSERT INTO `app_clients_users`(`username`, `password`, `user_id`, `organization_id`, `ac_type`) VALUES ('$this->username', '$this->password', '$this->user_id', '$this->organization_id', '$this->ac_type')";
+    $stmt = $this->dbconnection->prepare($query);
+    if ($stmt->execute()) {
+      return "True";
+    } else {
+      return "False";
+    }
+  }
+
+  //Delete Client account
+
+  public function deleteClientAccount()
+  {
+    $query = "DELETE FROM `app_clients_users` WHERE user_id = '$this->user_id'";
+    $stmt = $this->dbconnection->prepare($query);
+    if($stmt->execute())
+    {
+      return "True";
+    } else {
+      return "False";
+    }
   }
 }
 

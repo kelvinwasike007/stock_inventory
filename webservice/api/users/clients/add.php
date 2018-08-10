@@ -1,17 +1,17 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-type: application/json");
-header("Access-Control-Allow-Methods: PUT");
+header("Access-Control-Allow-Methods: POST");
 
 //Ship the dependancies
 
 include '../../../config/Database.php';
 include '../../../models/Users.php';
 include '../../../config/request_method_handler.php';
-include '../../../config/Jwt.php';
+
 
 //method handler
-put_method();
+post_method();
 
 //instatiate Db of an object
 $database = new Database();
@@ -30,34 +30,32 @@ $post_data = json_decode(file_get_contents("php://input"));
 $users->username = $post_data->username;
 $users->password = md5($post_data->password);
 $users->organization_id = $post_data->organization_id;
-$users->password_update = $post_data->password_update;
-$users->user_id = $post_data->user_id;
-$postToken = $post_data->Token;
-$user_id = $post_data->user_id;
+$users->ac_type = $post_data->ac_type;
+//generate User Id
+$users->user_id = md5($post_data->username.$post_data->organization_id);
 
-//perform the password change
+//Auth Data
 
-if (verifyToken($user_id, $db, $postToken) == "Valid") {
-  if ($users->updateClientAccount() == "True") {
+$user_id_data = $post_data->user_id;
+$token = $post_data->Token;
+
+//Verify Token
+if (verifyToken($user_id_data, $db, $token) == "Valid") {
+  //Add Users
+  if ($users->addClientAccount() == "True") {
     echo json_encode(
       array(
-        "msg" => "Account Was Successfully Updated"
+        "msg" => "user Was Successfuly Added"
       )
     );
   } else {
-    //Something Went wrong
     echo json_encode(
       array(
-        "msg" => "An Error Occured During Account Update.. Check if Your Password Was Correct"
+        "msg" => "An Error Occured During this Operation"
       )
     );
   }
 } else {
-  //wrong Token Message
-  echo json_encode(
-    array(
-      "msg" => "Error 401 | Unauthorized Access "
-    )
-  );
-        http_response_code(401);
+  #error msg
+  unAuthMsg();
 }
