@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Navbar from './Navs/Navbar';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
+import Register from './pages/register';
+import Dashboard from './pages/Dashboard';
 //The Application Layout
 class App extends Component
 {
@@ -17,6 +19,8 @@ class App extends Component
             <Switch>
             <Route path="/" component={Landing} exact />
             <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} /> 
+            <Route path="/dashboard" component= {Dashboard} />            
             <Route component={Error} />
 </Switch>
             </div>

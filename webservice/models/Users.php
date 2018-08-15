@@ -103,6 +103,18 @@ class Users
     return $user_id_val;
   }
 
+  //Get User Id Of A User
+  public function getOrganizationId()
+  {
+    $query = "SELECT * FROM `app_clients_users` WHERE username='$this->username'";
+    $stmt = $this->dbconnection->prepare($query);
+    $stmt->execute();
+    while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $user_id_val = $data["organization_id"];
+    }
+    return $user_id_val;
+  }
+
   //add clients account
 
   public function addClientAccount()

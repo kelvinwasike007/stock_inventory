@@ -1,5 +1,7 @@
 <?php
-
+header("Access-Control-Allow-Origin: *");
+header("Content-type: application/json");
+header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Access-Control-Allow-Origin'); 
 //Ship the dependancies
 
 include '../../config/Database.php';
@@ -25,7 +27,15 @@ $post_data = json_decode(file_get_contents("php://input"));
 $client->organization = $post_data->organization;
 $client->email = $post_data->email;
 $client->contact = $post_data->contact;
-
+if($client->checkOrganization() == "False")
+{
+  echo json_encode(
+    array(
+      "msg" => "Organization Name Is Taken"
+    )
+    );
+    exit();
+}
 //check if the request was processed
 if ($client->register() == 'Pass') {
   echo json_encode(

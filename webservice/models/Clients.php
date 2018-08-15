@@ -35,11 +35,27 @@ class Clients
     return $stmt;
   }
 
+  //check for Existing Organization
+   public function checkOrganization()
+   {
+     $query = "SELECT * FROM app_clients WHERE organization='$this->organization'";
+     $stmt = $this->dbconnection->prepare($query);
+     $stmt->execute();
+
+     $results = $stmt->rowCount();
+     if($results > 0)
+     {
+       return "False";
+     } else {
+       return "True";
+     }
+   }
+
   public function register()
   {
     $new_organization_id = md5($this->organization);
     $user_id = md5("admin".$new_organization_id);
-    $query = "INSERT INTO " . $this->table . "(`organization`, `organization_id`, `contact`, `email`, `active`)VALUES ('$this->organization', '$new_organization_id', '$this->contact', '$this->email', 'No')";
+    $query = "INSERT INTO app_clients(`organization`, `organization_id`, `contact`, `email`, `active`)VALUES ('$this->organization', '$new_organization_id', '$this->contact', '$this->email', 'No')";
     $stmt = $this->dbconnection->prepare($query);
     if ($stmt->execute()) {
       //set up Admin User if pass

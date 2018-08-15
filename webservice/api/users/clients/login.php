@@ -36,6 +36,7 @@ $users->organization_id = $post_data->organization_id;
 if ($users->client_login() == "True") {
   //get  User Id
   $user_id_data = $users->getUserId();
+  $organization_id = $users->getOrganizationId();
     //generate  token
   $token = generateToken($post_data->username, $db, $user_id_data);
     //send token and login success
@@ -43,7 +44,8 @@ if ($users->client_login() == "True") {
     array(
       "msg" => "Authenticated",
       "Token" => $token,
-      "user_id" => $user_id_data
+      "user_id" => $user_id_data,
+      "organization_id" => $organization_id
     )
   );
 } else {

@@ -27,7 +27,9 @@ $clients = $client->read();
 //store our data in an array
 $all_clients = array();
 while ($data = $clients->fetch(PDO::FETCH_ASSOC)) {
-  array_push($all_clients, $data);
+  $organization["name"] = $data["organization"];
+  $organization["id"] = $data["organization_id"];
+  array_push($all_clients, $organization);
 }
 
 //Get the total number  of  results from the Db
