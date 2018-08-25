@@ -40,12 +40,14 @@ if($client->checkOrganization() == "False")
 if ($client->register() == 'Pass') {
   echo json_encode(
     array(
+      'status' => 'success',
       'msg' => 'Your Organization Was Successfuly Registered...Please Login And Wait For Admins To Activate Your Package'
     )
   );
 } else {
   echo json_encode(
     array(
+      'status' => 'unsuccessfull',
       'msg' => 'An Error Occured During Organization Registration Process'
     )
   );

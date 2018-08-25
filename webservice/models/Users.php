@@ -37,7 +37,7 @@ class Users
     $stmt->execute();
      //check if there  is no results
 
-     if ($stmt->rowCount() < 0) {
+     if ($stmt->rowCount() < 1 ) {
        return "False";
      }
     //fetch the data
@@ -99,6 +99,17 @@ class Users
     $stmt->execute();
     while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
       $user_id_val = $data["user_id"];
+    }
+    return $user_id_val;
+  }
+
+  public function getUserAcType()
+  {
+    $query = "SELECT * FROM `app_clients_users` WHERE username='$this->username'";
+    $stmt = $this->dbconnection->prepare($query);
+    $stmt->execute();
+    while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $user_id_val = $data["ac_type"];
     }
     return $user_id_val;
   }

@@ -45,12 +45,14 @@ if (verifyToken($user_id, $db, $token) == "Valid") {
   if ($stock->createStock() == "True") {
     echo json_encode(
       array(
+        "status" => "pass",
         "msg" => "Stock Detail Was Successfully Added"
       )
     );
   } else {
     echo json_encode(
       array(
+        "status" => "fail",
         "msg" => "Encountered a problem durning Stock add process.. Please Try Again"
       )
     );

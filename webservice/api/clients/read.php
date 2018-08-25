@@ -25,11 +25,20 @@ $client = new Clients($db);
 $clients = $client->read();
 
 //store our data in an array
+if($clients->rowCount() < 1){
+  echo json_encode(
+    array(
+      "organization_name" => "0",
+      "organization_id" => "Sign Up And Come Back And Login"
+    )
+    );
+} else {
 $all_clients = array();
-while ($data = $clients->fetch(PDO::FETCH_ASSOC)) {
-  $organization["name"] = $data["organization"];
-  $organization["id"] = $data["organization_id"];
-  array_push($all_clients, $organization);
+    while ($data = $clients->fetch(PDO::FETCH_ASSOC)) {
+      $organization["organization_name"] = $data["organization"];
+      $organization["organization_id"] = $data["organization_id"];
+      array_push($all_clients, $organization);
+    }
 }
 
 //Get the total number  of  results from the Db
