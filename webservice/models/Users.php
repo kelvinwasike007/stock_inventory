@@ -139,6 +139,25 @@ class Users
     }
   }
 
+  //get Accounts
+
+  public function getAccountsClients()
+  {
+    $query = "SELECT username, ac_type, user_id FROM app_clients_users WHERE organization_id='$this->organization_id'";
+    $stmt = $this->dbconnection->prepare($query);;
+    $stmt->execute();
+
+    return $stmt;
+  }
+
+  public function adminAccountUpdate()
+  {
+    $query = "UPDATE`app_clients_users` SET username='$this->username', password='$this->password' WHERE user_id='$this->user_id' AND organization_id='$this->organization_id'";
+    $stmt = $this->dbconnection->prepare($query);
+    $stmt->execute();
+    return True;
+  }
+
   //Delete Client account
 
   public function deleteClientAccount()

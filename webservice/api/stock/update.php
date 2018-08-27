@@ -25,9 +25,8 @@ $stock = new Stock($db);
 $post_data = json_decode(file_get_contents("php://input"));
 
 $stock->organization_id = $post_data->organization_id;
-$stock->stock_name = $post_data->stock_name;
-$stock->stock_description = $post_data->stock_description;
-$stock->return_status = $post_data->return_status;
+$stock->updateColumn = $post_data->updateColumn;
+$stock->updateValue = $post_data->updateValue;
 $stock->stock_group_id = $post_data->stock_group_id;
 
 //Auth Data

@@ -1,6 +1,6 @@
 var axios = require('axios')
-var url = '/api'
-export { addStock, getStocks }
+const url = "./webservice/api";
+export { addStock, getStocks, updateStock, deleteStock }
 
 function addStock(stock_info)
 {
@@ -8,6 +8,24 @@ function addStock(stock_info)
         method: "POST",
         url: `${url}/stock/add`,
         data: stock_info
+    }).then(response => response.data);
+}
+
+function deleteStock(delete_data)
+{
+    return axios({
+        method: "DELETE",
+        url: `${url}/stock/delete`,
+        data: delete_data
+    }).then(response => response.data);
+}
+
+function updateStock(update_data)
+{
+    return axios({
+        method: "PUT",
+        url: `${url}/stock/update`,
+        data: update_data
     }).then(response => response.data);
 }
 

@@ -6,8 +6,11 @@ import Register from './components/pages/UnAuthed/Register';
 import Home from './components/pages/UnAuthed/Home';
 import Sidenav from './components/navigation/Sidenav';
 import StockManagement from './components/pages/Authed/StockManagement';
+import manageUsers from './components/pages/Authed/manageUsers';
 import './main.css';
 import DashBoard from './components/pages/Authed/DashBoard';
+import Error from './components/pages/Error';
+import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 class App extends Component
 {
   render()
@@ -23,6 +26,7 @@ class App extends Component
           <Route path="/dashboard" component={DashBoard} />  
           <Route path="/register" component={Register} />
           <Route path="/manageStock" component={StockManagement} />  
+          <Route path="/manageUsers" component={manageUsers} />  
           <Route component={Error} />
         </Switch>
         </div>  

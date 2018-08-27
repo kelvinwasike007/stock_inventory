@@ -1,6 +1,6 @@
 var store = localStorage;
 var axios = require('axios');
-const url = "/api";
+const url = "./webservice/api";
 export { getSession, authCheck, addOrganization, getOrganizations, loginResponse, saveSession, getAccountType }
 
 function authCheck()

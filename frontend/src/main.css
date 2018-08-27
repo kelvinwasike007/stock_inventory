@@ -33,7 +33,9 @@ body {
         border-radius: 0 !important;
         color: white;
 }
-
+.ReactModalPortal{
+    padding-top: 44px; 
+}
 body{
     font-family: Open Sans;
 }

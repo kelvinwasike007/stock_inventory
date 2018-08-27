@@ -17,7 +17,7 @@ class DashBoard extends Component
                                     </div>
                                     <div className="col-md-6">
                                         <h4>Available Stock</h4>
-                                        <p>11</p>
+                                        <p>13</p>
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +31,7 @@ class DashBoard extends Component
                                     </div>
                                     <div className="col-md-6">
                                         <h4>Active Stock Requests</h4>
-                                        <p>11</p>
+                                        <p>0</p>
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +45,7 @@ class DashBoard extends Component
                                     </div>
                                     <div className="col-md-6">
                                         <h4>Pending Returns</h4>
-                                        <p>11</p>
+                                        <p>6</p>
                                     </div>
                                 </div>
                             </div>

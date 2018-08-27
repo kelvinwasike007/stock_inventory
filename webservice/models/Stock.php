@@ -14,7 +14,7 @@ class Stock
   public $stock_group_id;
   public $stock_name;
   public $stock_description;
-  public $return_status;
+  public $return_status, $updateColumn, $updateValue;
   function __construct($db)
   {
     //get Connection object
@@ -48,7 +48,7 @@ class Stock
   //update stock
   public function updateStock()
   {
-    $query = "UPDATE `app_clients_stock` SET `stock_name`='$this->stock_name',`stock_description`='$this->stock_description',`return_status`='$this->return_status' WHERE `organization_id`='$this->organization_id' AND `stock_group_id`='$this->stock_group_id'";
+    $query = "UPDATE `app_clients_stock` SET `$this->updateColumn`='$this->updateValue' WHERE `organization_id`='$this->organization_id' AND `stock_group_id`='$this->stock_group_id'";
     $stmt = $this->dbconnection->prepare($query);
     if ($stmt->execute()) {
       return "True";
@@ -60,13 +60,16 @@ class Stock
   //Delete Stock Info
   public function deleteStock()
   {
-    $query = "DELETE FROM `app_clients_stock` WHERE organization_id='$this->organization_id' AND stock_group_id='$this->stock_group_id'";
-    $stmt = $this->dbconnection->prepare($query);
-    if ($stmt->execute()) {
-      return "True";
-    } else {
-      return "False";
+    //get one id at a time
+    $stock_id = $this->stock_group_id;
+    foreach($stock_id as $key)
+    {
+      $query = "DELETE FROM `app_clients_stock` WHERE organization_id='$this->organization_id' AND stock_group_id='$key'";
+      $stmt = $this->dbconnection->prepare($query);
+      $stmt->execute();
     }
+    
+    return True;
   }
 }
 

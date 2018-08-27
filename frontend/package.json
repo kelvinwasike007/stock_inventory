@@ -15,6 +15,7 @@
     "jquery": "^3.3.1",
     "prettier": "^1.14.2",
     "react": "^16.4.2",
+    "react-bootstrap-table": "^4.3.1",
     "react-dom": "^16.4.2",
     "react-fontawesome": "^1.6.1",
     "react-router-dom": "^4.3.1",
@@ -32,5 +33,6 @@
       "target": "http://127.0.0.1/stock_inventory/webservice",
       "ws": true
     }
-  }
+  },
+  "homepage": "http://www.stock.wesempire.co.ke"
 }

@@ -9,7 +9,6 @@ include '../../../config/Database.php';
 include '../../../models/Users.php';
 include '../../../config/request_method_handler.php';
 
-
 //method handler
 post_method();
 
@@ -19,43 +18,42 @@ $database = new Database();
 //Get the  Database Connection
 $db = $database->connect();
 
-//create a users object
+//Initiate The Stock class
 $users = new Users($db);
 
-//Get User Data
-
+//get post Data
 $post_data = json_decode(file_get_contents("php://input"));
 
-//set fields to coresponding data
-$users->username = $post_data->username;
-$users->password = md5($post_data->username);
+//get VALUES
+
 $users->organization_id = $post_data->organization_id;
-$users->ac_type = $post_data->ac_type;
-//generate User Id
-$users->user_id = md5($post_data->username.$post_data->organization_id);
 
 //Auth Data
-
-$user_id_data = $post_data->user_id;
 $token = $post_data->Token;
+$user_id = $post_data->user_id;
 
-//Verify Token
-if (verifyToken($user_id_data, $db, $token) == "Valid") {
-  //Add Users
-  if ($users->addClientAccount() == "True") {
+//Verification
+
+if (verifyToken($user_id, $db, $token) == "Valid") {
+  //run Code
+  $results = $users->getAccountsClients();
+
+  //check if rows
+  if ($results->rowCount() < 1) {
     echo json_encode(
       array(
-        "msg" => "user Was Successfuly Added"
+        "msg" => "No Records Available...Please Add An Account From Admin "
       )
     );
-  } else {
-    echo json_encode(
-      array(
-        "msg" => "An Error Occured During this Operation"
-      )
-    );
+  }else {
+    //return data
+    $records = array();
+    while ($data = $results->fetch(PDO::FETCH_ASSOC)) {
+      array_push($records, $data);
+    }
+
+    echo json_encode($records);
   }
 } else {
-  #error msg
   unAuthMsg();
 }

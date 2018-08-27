@@ -8,7 +8,7 @@ header("Access-Control-Allow-Methods: PUT");
 include '../../../config/Database.php';
 include '../../../models/Users.php';
 include '../../../config/request_method_handler.php';
-include '../../../config/Jwt.php';
+
 
 //method handler
 put_method();
@@ -28,17 +28,16 @@ $post_data = json_decode(file_get_contents("php://input"));
 
 //set fields to coresponding data
 $users->username = $post_data->username;
-$users->password = md5($post_data->password);
+$users->password = md5($post_data->username);
 $users->organization_id = $post_data->organization_id;
-$users->password_update = $post_data->password_update;
-$users->user_id = $post_data->user_id;
+$users->user_id = $post_data->_user_id;
 $postToken = $post_data->Token;
 $user_id = $post_data->user_id;
 
 //perform the password change
 
 if (verifyToken($user_id, $db, $postToken) == "Valid") {
-  if ($users->updateClientAccount() == "True") {
+  if ($users->adminAccountUpdate()) {
     echo json_encode(
       array(
         "msg" => "Account Was Successfully Updated"

@@ -19,5 +19,3 @@ $database = new Database();
 $db = $database->connect();
 
 //create a client object
-
-$
