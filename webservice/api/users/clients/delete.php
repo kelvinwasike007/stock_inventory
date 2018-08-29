@@ -1,7 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-type: application/json");
-header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Methods: DELETE");
 
 //Ship the dependancies
 
@@ -11,7 +11,7 @@ include '../../../config/request_method_handler.php';
 
 
 //method handler
-post_method();
+DELETE_method();
 
 //instatiate Db of an object
 $database = new Database();
@@ -27,9 +27,9 @@ $users = new Users($db);
 $post_data = json_decode(file_get_contents("php://input"));
 
 //set fields to coresponding data
-$users->user_id = $post_data->post_user_id;
+$users->user_id = $post_data->_user_id;
 
-
+$users->organization_id = $post_data->organization_id;
 //Auth Data
 
 $user_id_data = $post_data->user_id;

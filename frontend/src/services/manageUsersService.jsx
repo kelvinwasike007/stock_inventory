@@ -1,7 +1,7 @@
 var axios = require('axios')
 const url = "/api";
 
-export { getUsers, Validate, addUser, updateUser }
+export { getUsers, Validate, addUser, updateUser, deleteUserAccount }
 
 function getUsers(creds)
 {
@@ -41,5 +41,14 @@ function updateUser(user_data)
         method: "PUT",
         url: `${url}/users/clients/update`,
         data: user_data
+    }).then(response => response.data);
+}
+
+function deleteUserAccount(delete_data)
+{
+    return axios({
+        method: "DELETE",
+        url: `${url}/users/clients/delete`,
+        data: delete_data
     }).then(response => response.data);
 }

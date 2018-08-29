@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { getUsers, Validate, addUser, updateUser } from '../../../services/manageUsersService';
+import { getUsers, Validate, addUser, updateUser, deleteUserAccount } from '../../../services/manageUsersService';
 import { getSession } from '../../../services/AuthentiCationService';
 const accounts = ['admin', 'member'];
 
@@ -30,6 +30,36 @@ class manageUsers extends Component
       this.setState({ data }) 
       this.getAccounts()
     }
+  
+    deleteUser(row) {
+      var creds;
+      var session = getSession();
+  
+      creds = {
+        Token: session.Token,
+        user_id: session.user_id,
+        organization_id: session.organization_id
+      }
+  
+      var delete_data = {
+        _user_id: row,
+        organization_id: creds.organization_id,
+        Token: creds.Token,
+        user_id: creds.user_id
+      }
+  
+      deleteUserAccount(delete_data).then(
+        (response) => {
+          var data = {
+            errorDump: response.msg,
+            errorMode: "alert alert-danger"
+          }
+  
+          this.setStates(data)
+        }
+        
+      );
+  }
 
     updateAccount(row, cellName, cellValue)
     {
@@ -132,7 +162,8 @@ class manageUsers extends Component
             deleteText: 'Delete Accounts',
             insertText: 'New Account',
             insertModalHeader: this.InsertHeader,
-            afterInsertRow: this.createUser
+            afterInsertRow: this.createUser,
+            afterDeleteRow: this.deleteUser
         }
         return (
             <div className="main-app">

@@ -10,6 +10,7 @@ import manageUsers from './components/pages/Authed/manageUsers';
 import './main.css';
 import DashBoard from './components/pages/Authed/DashBoard';
 import Error from './components/pages/Error';
+import Orders from './components/pages/Authed/Orders';
 import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 class App extends Component
 {
@@ -27,6 +28,7 @@ class App extends Component
           <Route path="/register" component={Register} />
           <Route path="/manageStock" component={StockManagement} />  
           <Route path="/manageUsers" component={manageUsers} />  
+          <Route path="/orders" component={Orders} />
           <Route component={Error} />
         </Switch>
         </div>  

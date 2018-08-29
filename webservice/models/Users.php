@@ -162,13 +162,12 @@ class Users
 
   public function deleteClientAccount()
   {
-    $query = "DELETE FROM `app_clients_users` WHERE user_id = '$this->user_id'";
-    $stmt = $this->dbconnection->prepare($query);
-    if($stmt->execute())
-    {
-      return "True";
-    } else {
-      return "False";
+    $user_ids = $this->user_id;
+    foreach ($user_ids as $id) {
+      $query = "DELETE FROM `app_clients_users` WHERE user_id = '$id' AND organization_id='$this->organization_id'";
+      $stmt = $this->dbconnection->prepare($query);
+      $stmt->execute();
+      return True;
     }
   }
 }
