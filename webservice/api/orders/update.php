@@ -6,7 +6,7 @@ header("Access-Control-Allow-Methods: PUT");
 //Ship the dependancies
 
 include '../../config/Database.php';
-include '../../models/Manifest.php';
+include '../../models/Orders.php';
 include '../../config/request_method_handler.php';
 
 //method handler
@@ -19,21 +19,17 @@ $database = new Database();
 $db = $database->connect();
 
 //Initiate The Stock class
-$manifest = new Manifest($db);
+$orders = new Orders($db);
 
 //get post Data
 $post_data = json_decode(file_get_contents("php://input"));
 
 //get VALUES
 
-$manifest->organization_id = $post_data->organization_id;
-$manifest->stock_group_id = $post_data->stock_group_id;
-$manifest->new_stock_group_id = $post_data->new_stock_group_id;
-$manifest->new_Amount = $post_data->new_Amount;
-$manifest->new_Cost = $post_data->new_Cost;
-$manifest->new_Units = $post_data->new_Units;
-$manifest->date_of_shipment = $post_data->date_of_shipment;
-
+$orders->updateColumn = $post_data->updateColumn;
+$orders->updateValue = $post_data->updateValue;
+$orders->order_id = $post_data->order_id;
+$orders->organization_id = $post_data->organization_id;
 //Auth Data
 $token = $post_data->Token;
 $user_id = $post_data->user_id;
@@ -42,16 +38,16 @@ $user_id = $post_data->user_id;
 
 if (verifyToken($user_id, $db, $token) == "Valid") {
   //run Code
-  if ($manifest->updateManifest() == "True") {
+  if ($orders->updateManifest() == "True") {
     echo json_encode(
       array(
-        "msg" => "Manifest Was Succesfully Updated"
+        "msg" => "Approval Status Was Successfully Updated"
       )
     );
   } else {
     echo json_encode(
       array(
-        "msg" => "Manifest Was Unsuccesfully Updated"
+        "msg" => "Approval status was Unsucessful "
       )
     );
   }

@@ -40,7 +40,7 @@ body{
     font-family: Open Sans;
 }
 
-.btn, .modal-content, .dataTables_paginate{
+.btn, .modal-content, .dataTables_paginate, input, textarea, select, .breadcrumb, .alert{
     border-radius: 0 !important;
 }
 

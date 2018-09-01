@@ -36,7 +36,7 @@ $users->organization_id = $post_data->organization_id;
 if ($users->client_login() == "True") {
   //get  User Id
   $user_id_data = $users->getUserId();
-  $organization_id = $users->getOrganizationId();
+  $organization_id = $post_data->organization_id;
   $ac_type = $users->getUserAcType();
     //generate  token
   $token = generateToken($post_data->username, $db, $user_id_data);

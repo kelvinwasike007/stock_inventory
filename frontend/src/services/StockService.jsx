@@ -1,5 +1,5 @@
 var axios = require('axios')
-const url = "/api";
+const url = "./webservice/api";
 export { addStock, getStocks, updateStock, deleteStock }
 
 function addStock(stock_info)

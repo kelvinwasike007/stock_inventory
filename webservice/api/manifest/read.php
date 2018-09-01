@@ -39,21 +39,11 @@ if (verifyToken($user_id, $db, $token) == "Valid") {
   $results = $manifest->readManifest();
 
   //check if rows
-  if ($results->rowCount() < 1) {
-    echo json_encode(
-      array(
-        "msg" => "No Records Available...Please Add Manifest From Admin "
-      )
-    );
-  }else {
-    //return data
-    $records = array();
-    while ($data = $results->fetch(PDO::FETCH_ASSOC)) {
-      array_push($records, $data);
-    }
-
-    echo json_encode($records);
+  $records = array();
+  while ($data = $results->fetch(PDO::FETCH_ASSOC)) {
+    array_push($records, $data);
   }
+    echo json_encode($records);
 } else {
   unAuthMsg();
 }

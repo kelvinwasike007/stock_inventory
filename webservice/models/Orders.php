@@ -4,13 +4,13 @@
 * @author Kelvin Wasike
 *@package Stock Inventory WS
  */
-class Manifest
+class Orders
 {
   //db
   private $db;
 
   //Consumers Properties
-  public $organization_id ,	$stock_group_id, 	$Amount, 	$Units, 	$Cost, 	$new_stock_group_id, 	$new_Amount, 	$new_Units, 	$new_Cost, $date_of_shipment;
+  public $updateColumn, $updateValue, $order_id, $organization_id ,	$stock_group_id, 	$Amount, 	$Units, 	$Cost, 	$new_stock_group_id, 	$new_Amount, 	$new_Units, 	$new_Cost, $date_of_shipment;
 
   //constructor
   function __construct($db)
@@ -43,7 +43,7 @@ class Manifest
   //update Consumer info
   public function updateManifest()
   {
-    $query = "UPDATE `app_clients_shipping_manifest` SET `stock_group_id`='$this->new_stock_group_id',`Amount`= '$this->new_Amount',`Units`= '$this->new_Units',`Cost`= '$this->new_Cost' WHERE `organization_id`='$this->organization_id'  AND date_of_shipment='$this->date_of_shipment'";
+    $query = "UPDATE `app_clients_stock_oders` SET `$this->updateColumn`='$this->updateValue' WHERE `organization_id`='$this->organization_id'  AND order_id='$this->order_id'";
     $stmt = $this->db->prepare($query);
     if ($stmt->execute()) {
       return "True";

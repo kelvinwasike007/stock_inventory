@@ -38,22 +38,13 @@ if (verifyToken($user_id, $db, $token) == "Valid") {
   //run Code
   $results = $suppliers->readSuppliers();
 
-  //check if rows
-  if ($results->rowCount() < 1) {
-    echo json_encode(
-      array(
-        "msg" => "No Records Available...Please Add Supplier From Admin "
-      )
-    );
-  }else {
+  
     //return data
     $records = array();
     while ($data = $results->fetch(PDO::FETCH_ASSOC)) {
       array_push($records, $data);
     }
-
     echo json_encode($records);
-  }
 } else {
   unAuthMsg();
 }

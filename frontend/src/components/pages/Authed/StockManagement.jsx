@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { getStocks, addStock, updateStock, deleteStock } from '../../../services/StockService';
 import { getSession } from '../../../services/AuthentiCationService';
+import {toast, ToastContainer} from 'react-toastify'
 
 const return_type = ['True', 'False']
 
@@ -57,8 +58,8 @@ class StockManagement extends Component
           errorDump: response.msg,
           errorMode: "alert alert-info"
         }
-
-        this.setStates(data)
+        toast.warn(data.errorDump, {position: toast.POSITION.TOP_RIGHT})
+        this.getStock()
       }
       )
 
@@ -100,7 +101,8 @@ class StockManagement extends Component
           errorMode: "alert alert-info"
         }
 
-        this.setStates(data)
+        toast.warn(data.errorDump, {position: toast.POSITION.TOP_RIGHT})
+        this.getStock()
       }
     );
 
@@ -153,7 +155,8 @@ class StockManagement extends Component
           errorMode: "alert alert-danger"
         }
 
-        this.setStates(data)
+        toast.warn(data.errorDump, {position: toast.POSITION.TOP_RIGHT})
+        this.getStock()
       }
       
     );
@@ -195,6 +198,8 @@ class StockManagement extends Component
       <TableHeaderColumn dataField='stock_description' editable={{validator:this.Validate, type: 'textarea'}}>Stock Description</TableHeaderColumn>          
       <TableHeaderColumn dataField='return_status' editable={{validator:this.Validate,type: 'select', options: {values: return_type}}}>Retutn Status</TableHeaderColumn>          
   </BootstrapTable>
+
+  <ToastContainer />
             </div>
                           
             </div>
@@ -216,9 +221,14 @@ class StockManagement extends Component
       getStocks(creds).then(
         (response) =>
         {
-          this.setState({
+          if(response.length === 0)
+          {
+            
+          } else {
+            this.setState({
             stockData: response
           })
+          }
         }  
       )
   }

@@ -1,5 +1,5 @@
 var axios = require('axios')
-const url = "/api";
+const url = "./webservice/api";
 
 export { getUsers, Validate, addUser, updateUser, deleteUserAccount }
 

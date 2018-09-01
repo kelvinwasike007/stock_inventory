@@ -10,7 +10,7 @@ class Supplier
   private $db;
 
   //Consumers Properties
-  public 	$supplier_id, 	$organization_id, 	$contact, 	$supplier_name, 	$new_supplier_id, 	$new_contact, 	$new_supplier_name ;
+  public 	$updateColumn, $updateValue, $supplier_id, 	$organization_id, 	$contact, 	$supplier_name, 	$new_supplier_id, 	$new_contact, 	$new_supplier_name ;
 
   //constructor
   function __construct($db)
@@ -43,7 +43,7 @@ class Supplier
   //update Consumer info
   public function updateSuppliers()
   {
-    $query = "UPDATE `app_clients_supplier_contact`  SET `supplier_id`='$this->new_supplier_id',`contact`= '$this->new_contact', supplier_name='$this->new_supplier_name' WHERE `organization_id`='$this->organization_id' AND `supplier_id`='$this->supplier_id'";
+    $query = "UPDATE `app_clients_supplier_contact`  SET  `$this->updateColumn`='$this->updateValue' WHERE `organization_id`='$this->organization_id' AND `supplier_id`='$this->supplier_id'";
     $stmt = $this->db->prepare($query);
     if ($stmt->execute()) {
       return "True";
@@ -55,13 +55,14 @@ class Supplier
   //Delete Consumer
   public function deleteSuppliers()
   {
-    $query = "DELETE FROM `app_clients_supplier_contact` WHERE supplier_id='$this->supplier_id' AND organization_id='$this->organization_id'";
-    $stmt = $this->db->prepare($query);
-    if ($stmt->execute()) {
-      return "True";
-    } else {
-      return "False";
+    foreach($this->supplier_id as $id)
+    {
+      $query = "DELETE FROM `app_clients_supplier_contact` WHERE supplier_id='$id' AND organization_id='$this->organization_id'";
+      $stmt = $this->db->prepare($query);
+      $stmt->execute();
     }
+
+    return True;
   }
 }
 

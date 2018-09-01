@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { authCheck, getAccountType } from '../../services/AuthentiCationService';
 import Adminnav from './Adminnav';
+import Membernav from './Membernav';
 class Sidenav extends Component
 {
 
@@ -13,7 +14,7 @@ class Sidenav extends Component
             {
                 return <Adminnav />
             } else {
-                return <span><h1>Destributor</h1></span>
+                return <Membernav />
             }  
             
         } else {

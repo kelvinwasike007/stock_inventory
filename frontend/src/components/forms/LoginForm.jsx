@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { emptyFieldValidate } from '../../services/ValidationService';
 import { getOrganizations, loginResponse, saveSession, authCheck } from '../../services/AuthentiCationService';
 import { Redirect } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+
 class LoginForm extends Component
 {
 
@@ -65,7 +67,9 @@ class LoginForm extends Component
                     <input type="password" className="form-control" onChange={this.changeField} name="password" id="exampleInputPassword1" placeholder="Enter Password" />
                 </div>
                 <button type="submit" className="btn btn-primary  btn-block">Login</button>
+                <ToastContainer autoClose={4000} />
             </form>
+            
         )
     }
 
@@ -78,7 +82,7 @@ class LoginForm extends Component
         e.preventDefault();
         //Format Data for login
 
-        console.log(this.state);
+       
 
         var creds = {
             organization_id: this.state.organization,
@@ -90,37 +94,35 @@ class LoginForm extends Component
 
         if (!emptyFieldValidate(creds.username))
         {
-            console.log("Please Fill In The Username")
+            toast.warn("Please Fill In The Username", {position: toast.POSITION.TOP_RIGHT})
         } else if (!emptyFieldValidate(creds.password))
         {
-            console.log("Please Fill In The Password")
+            toast.warn("Please Fill In The Password", {position: toast.POSITION.TOP_RIGHT})
         } else if (!emptyFieldValidate(creds.organization_id))
         {
-            console.log("Please Select Your Organization");
+            toast.warn("Please Select Your Organization",{position: toast.POSITION.TOP_RIGHT});
         } else {
             //Try The login
             
             loginResponse(creds).then(
                 (response) =>
                 {
-                    console.log(response.msg)
+                    
+                    toast.info(response.info, {position: toast.POSITION.TOP_RIGHT})
                     if (response.msg === "Authenticated")
                     {
                         //login user
-                        this.setState({ redirect: true });
-                        console.log(this.state);
                         var user_data = {
                             Token: response.Token,
                             organization_id: response.organization_id,
                             user_id: response.user_id,
                             account_type: response.ac_type
                         }
-
                         saveSession(user_data);
+                        this.setState({ redirect: true });
 
                     } else {
                         this.setState({ errorMode: true, errorDump: response.info })
-                        console.log(this.state);
                     }
                 }    
             )

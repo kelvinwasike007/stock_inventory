@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { emailValidate, emptyFieldValidate } from '../../services/ValidationService';
 import { addOrganization } from '../../services/AuthentiCationService';
 import { Redirect } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+
 class RegisterForm extends Component {
     constructor() {
         super()
@@ -35,6 +37,7 @@ class RegisterForm extends Component {
                     <textarea type="text" className="form-control" onChange={this.changeField} name="about" id="exampleInputPassword1" placeholder="About Your Organization" />
                 </div>
                 <button type="submit" className="btn btn-primary  btn-block"> Create WorkSpace</button>
+                <ToastContainer />
             </form>
         )
     }
@@ -47,13 +50,13 @@ class RegisterForm extends Component {
     saveOrganization(e) {
         e.preventDefault();
         if (!emptyFieldValidate(this.state.organization)) {
-            console.log("enter organization")
+            toast.warn("enter organization", {position: toast.POSITION.TOP_RIGHT})
         } else if (!emptyFieldValidate(this.state.email)) {
-            console.log("Enter email")
+            toast.warn("Enter email", {position: toast.POSITION.TOP_RIGHT})
         } else if (!emptyFieldValidate(this.state.about)) {
-            console.log("Enter about")
+            toast.warn("Enter about", {position: toast.POSITION.TOP_RIGHT})
         } else if (!emailValidate(this.state.email)) {
-            console.log("Enter Right Email")
+            toast.warn("Enter Right Email", {position: toast.POSITION.TOP_RIGHT})
         } else {
             //make OrgData
             var OrgData = {
@@ -65,7 +68,7 @@ class RegisterForm extends Component {
                 (promise) => {
                     if (promise.status === undefined)
                     {
-                        console.log(promise.msg)
+                        toast.warn(promise.msg, {position: toast.POSITION.TOP_RIGHT})
                     } else if (promise.status === "success")
                     {
                         this.setState({ promise: true }) 

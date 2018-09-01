@@ -26,11 +26,10 @@ $post_data = json_decode(file_get_contents("php://input"));
 
 //get VALUES
 
-$suppliers->organization_id = $post_data->organization_id;
+$suppliers->updateColumn = $post_data->updateColumn;
+$suppliers->updateValue = $post_data->updateValue;
 $suppliers->supplier_id = $post_data->supplier_id;
-$suppliers->new_supplier_id = $post_data->new_supplier_id;
-$suppliers->new_supplier_name = $post_data->new_supplier_name;
-$suppliers->new_contact = $post_data->new_contact;
+$suppliers->organization_id = $post_data->organization_id;
 
 //Auth Data
 $token = $post_data->Token;
